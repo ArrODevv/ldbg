@@ -1,0 +1,10 @@
+[package]
+name = "rosemallow"
+version = "0.0.1"
+edition = "2024"
+resolver = "3"
+
+#[lib]
+#crate-type = ["rlib", ...]
+
+[dependencies]

@@ -1,0 +1,13 @@
+[package]
+name = "ldbg"
+version = "0.0.1"
+edition = "2024"
+resolver = "3"
+
+[dependencies]
+rosemallow = { path = "crates/rosemallow" } # Renderer
+
+[workspace]
+members = [
+    "crates/rosemallow"
+]

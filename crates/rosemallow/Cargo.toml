@@ -8,3 +8,4 @@ resolver = "3"
 #crate-type = ["rlib", ...]
 
 [dependencies]
+serde = { version = "1.0.229", features = ["default", "serde_derive"] }

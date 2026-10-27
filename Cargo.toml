@@ -5,7 +5,9 @@ edition = "2024"
 resolver = "3"
 
 [dependencies]
+anyhow = "1.0.104"
 rosemallow = { path = "crates/rosemallow" } # Renderer
+serde = { version = "1.0.229", features = ["default", "serde_derive"] }
 
 [workspace]
 members = [

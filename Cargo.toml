@@ -8,8 +8,10 @@ resolver = "3"
 anyhow = "1.0.104"
 rosemallow = { path = "crates/rosemallow" } # Renderer
 serde = { version = "1.0.229", features = ["default", "serde_derive"] }
+thiserror = "2.0.21"
 
 [workspace]
 members = [
+    "crates/math",
     "crates/rosemallow"
 ]

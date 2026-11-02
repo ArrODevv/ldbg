@@ -1,6 +1,7 @@
 [package]
 name = "rosemallow"
 version = "0.0.1"
+publish = false
 edition = "2024"
 resolver = "3"
 
@@ -9,3 +10,5 @@ resolver = "3"
 
 [dependencies]
 serde = { version = "1.0.229", features = ["default", "serde_derive"] }
+anyhow = "1.0.104"
+thiserror = "2.0.21"

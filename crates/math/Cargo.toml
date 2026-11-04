@@ -12,3 +12,4 @@ resolver = "3"
 serde = { version = "1.0.229", features = ["default", "serde_derive"] }
 anyhow = "1.0.104"
 thiserror = "2.0.21"
+num-traits = "0.2.19"

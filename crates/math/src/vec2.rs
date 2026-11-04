@@ -1,8 +1,9 @@
 //! The module containing the vec2 implementation.
 
+use std::fmt::{Display, Formatter};
 use serde::{Deserialize, Serialize};
 
-use crate::traits::{GetLength, GetLengthSquared};
+use crate::traits::Vector;
 
 /*
 TODO:
@@ -36,16 +37,103 @@ impl Vec2 {
     }
 }
 
-impl GetLength for Vec2 {
-    type Output = f32;
-    fn len(&self) -> Self::Output {
+pub mod consts {
+    //! Useful constants for use with `Vec2`.
+    use super::Vec2;
+    pub const ZERO: Vec2 = Vec2 { x: 0.0f32, y: 0.0f32 };
+    pub const ONE: Vec2 = Vec2 { x: 1.0f32, y: 1.0f32 };
+
+    pub const UP: Vec2 = Vec2 { x: 0.0f32, y: 1.0f32 };
+    pub const DOWN: Vec2 = Vec2 { x: 0.0f32, y: -1.0f32 };
+    pub const LEFT: Vec2 = Vec2 { x: -1.0f32, y: 0.0f32 };
+    pub const RIGHT: Vec2 = Vec2 { x: 1.0f32, y: 0.0f32 };
+}
+
+impl Vector for Vec2 {
+    type ComponentType = f32;
+
+    fn len(&self) -> f32 {
         f32::sqrt(self.x * self.x + self.y * self.y)
+    }
+
+    fn len_sqr(&self) -> f32 {
+        self.x * self.x + self.y * self.y
+    }
+
+    fn normal(&self) -> Self {
+        let len = self.len();
+        if len.is_normal() {
+            Self {
+                x: self.x / len,
+                y: self.y / len,
+            }
+        } else {
+            Self {
+                x: 0.0f32,
+                y: 0.0f32,
+            }
+        }
+    }
+
+    fn normalize(&mut self) {
+        let len = self.len();
+        if len.is_normal() {
+            self.x /= len;
+            self.y /= len;
+        } else {
+            self.x = 0.0f32;
+            self.y = 0.0f32;
+        }
+    }
+
+    fn get_component_0(&self) -> Option<Self::ComponentType> {
+        Some(self.x)
+    }
+
+    fn get_component_1(&self) -> Option<Self::ComponentType> {
+        Some(self.y)
+    }
+
+    fn get_component_2(&self) -> Option<Self::ComponentType> {
+        None
+    }
+
+    fn get_component_3(&self) -> Option<Self::ComponentType> {
+        None
     }
 }
 
-impl GetLengthSquared for Vec2 {
-    type Output = f32;
-    fn len_sqr(&self) -> Self::Output {
-        self.x * self.x + self.y * self.y
+impl Display for Vec2 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Vec2 {{ {:.3}, {:.3} }}", self.x, self.y)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use num_traits::FloatConst;
+    use super::*;
+
+    const COMMON_V_1: Vec2 = Vec2 { x: 1.23f32, y: 4.56f32 };
+    const COMMON_V_2: Vec2 = Vec2 { x: 1f32, y: 1f32 };
+    const COMMON_V_Z: Vec2 = consts::ZERO;
+
+    #[test]
+    fn display() {
+        assert_eq!(format!("{}", COMMON_V_1), "Vec2 { 1.23, 4.56 }");
+    }
+
+    #[test]
+    fn len() {
+        assert_eq!(COMMON_V_1.len(), f32::sqrt(22.3065f32));
+        assert_eq!(COMMON_V_2.len(), f32::SQRT_2());
+        assert_eq!(COMMON_V_Z.len(), 0f32);
+    }
+
+    #[test]
+    fn len_sqr() {
+        assert_eq!(COMMON_V_1.len(), 22.3065f32);
+        assert_eq!(COMMON_V_2.len(), 2f32);
+        assert_eq!(COMMON_V_Z.len(), 0f32);
     }
 }
